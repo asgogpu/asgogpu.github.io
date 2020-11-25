@@ -35,3 +35,7 @@ Your Pages site will use the layout and styles from the Jekyll theme you have se
 ### Support or Contact
 
 Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+
+### 参考材料
+1. [SLURM官方手册中文版](https://docs.slurm.cn/users/)
+1. [SLURM官方手册英文版](https://slurm.schedmd.com/documentation.html)
