@@ -1,14 +1,13 @@
-## Welcome to GitHub Pages
+## 欢迎使用ASGO-GPU平台
+用户入门请参阅《[用户手册](用户手册.pdf)》。
 
-You can use the [editor on GitHub](https://github.com/asgogpu/asgogpu.github.io/edit/main/index.md) to maintain and preview the content for your website in Markdown files.
+### 平台入口
+打开浏览器，输入：
+> 10.69.21.155:6080
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+<!-- Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for -->
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
+<!-- ```markdown
 Syntax highlighted code block
 
 # Header 1
@@ -39,3 +38,4 @@ Having trouble with Pages? Check out our [documentation](https://docs.github.com
 ### 参考材料
 1. [SLURM官方手册中文版](https://docs.slurm.cn/users/)
 1. [SLURM官方手册英文版](https://slurm.schedmd.com/documentation.html)
+ -->
