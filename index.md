@@ -6,7 +6,7 @@
 > 10.69.21.155:6080
 
 ### 用户交流群
-![ASGO-GPU用户群](qr.png "限时有效")
+![ASGO-GPU用户群](qr.bmp "限时有效")
 
 <!-- Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for -->
 
