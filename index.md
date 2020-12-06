@@ -5,26 +5,33 @@
 ### 调度平台入口
 打开浏览器，输入：
 > 10.69.21.155:6080
+可以进行用户账号申请、登录、作业提交、状态查看等操作。
 
 ### 节点登录
-> ssh username@10.69.21.155 port 22100
+需要在校园网环境登录，校外请先连接VPN； Linux\Mac用户可直接在终端通过ssh的方式连接集群； Windows用户可通过windows terminal、xshell、putty或者mobaxterm连接集群；
+> ssh -p 22100 username@10.69.21.155
+
 
 ### 作业提交：
 提交作业请先编写作业脚本，并通过`sbatch`命令提交。
+
+假设作业脚本文件名为job.sh，
 ```bash
 #!/bin/bash
 #SBATCH -o job.%j.out
-#SBATCH --partition=C032M0128G
+#SBATCH --partition=debug #队列名称，目前有debug 和 operation 可选；优先级不同
 #SBATCH --qos=low
 #SBATCH -J myFirstJob
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
+#SBATCH --nodes=1          #申请节点数
+#SBATCH --gres=gpu:TeslaV100-SXM2-32GB:2  #每个节点上申请2个GPU
 
 hostname
 echo 'This is my first job !'
 ```
-假设作业脚本文件名为job.sh，则通过以下命令提交：
->sbatch job.sh
+则通过以下命令提交：
+> chmod 775 job.sh
+
+> sbatch job.sh
 
 ### 用户交流群
 ![ASGO-GPU用户群](qr.bmp "限时有效")
