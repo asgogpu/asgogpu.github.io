@@ -13,12 +13,12 @@
 提交作业请先编写作业脚本，并通过`sbatch`命令提交。
 ```bash
 #!/bin/bash
-#SBATCH -o job.%j.out
-#SBATCH --partition=C032M0128G
+#SBATCH -o job.%j.out          #输出文件路径
+#SBATCH --partition=operation  #队列名称，目前有debug 和 partition可选；优先级不同
 #SBATCH --qos=low
-#SBATCH -J myFirstJob
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
+#SBATCH -J myFirstJob          #可以给任务命名
+#SBATCH --nodes=1              #申请节点数 1
+#SBATCH --gres=gpu:TeslaV100-SXM2-32GB:2 #每个节点上申请2个GPU
 
 hostname
 echo 'This is my first job !'
