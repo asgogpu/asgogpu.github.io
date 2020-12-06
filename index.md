@@ -33,6 +33,17 @@ echo 'This is my first job !'
 
 > sbatch job.sh
 
+#### GPU初始环境配置
+因为ssh登录后admin1节点自身没有GPU卡，需要首先提交一个空任务。空任务排队成功后，即可以登录gpu3节点上，然后配置环境。
+后期执行任务只需要登录admin1即可。
+步骤1：
+![空任务提交](gpu3.bmp "空任务提交")
+步骤2：
+> ssh -p 22100 username@10.69.21.155
+
+> ssh gpu3
+
+
 ### 用户交流群
 ![ASGO-GPU用户群](qr.bmp "限时有效")
 
