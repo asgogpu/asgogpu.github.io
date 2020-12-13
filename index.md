@@ -23,11 +23,13 @@
 #SBATCH --qos=low
 #SBATCH -J myFirstJob          #可以给任务命名
 #SBATCH --nodes=1              #申请节点数 1
-#SBATCH --gres=gpu:TeslaV100-SXM2-32GB:2 #每个节点上申请2个GPU
+#SBATCH --gres=gpu:2 #每个节点上申请2个GPU
 
+# your tasks here
 hostname
 echo 'This is my first job !'
 ```
+
 则通过以下命令提交：
 > chmod 775 job.sh
 
@@ -37,18 +39,86 @@ echo 'This is my first job !'
 ### 环境配置
 系统预先配置了部分软件环境，可以通过增加环境变量的方式引用。全局软件放置于'/data1/software/'下。
 比如使用预装的conda：
+
 > vim .bashrc
 增加下面一行指令：
+
 'export PATH=/data1/software/anacinda3/bin:$PATH'
 
 又如调用cuda9.1：
+
 'export PATH=/data1/software/cuda9.1/bin:$PATH'
 'export LD_LIBRARY_PATH=/data1/software/cuda9.1/lib64:$LD_LIBRARY_PATH'
 
 然后刷新环境变量
+
 > source .bashrc
 
 环境配置完毕。
+
+####示例：
+至此，我们已经可以使用系统预先配置的环境运行任务了。
+编辑测试脚本'testgpu.slurm'如下：
+```
+#!/bin/bash
+#SBATCH --partition=operation
+#SBATCH --qos=low
+#SBATCH --nodes=1                 # 申请一个节点
+#SBATCH --cpus-per-task=2
+#SBATCH --ntasks-per-node=6
+#SBATCH --gres=gpu:2            # 每个节点上申请2块GPU卡
+
+#your task here:
+python testgpu.py
+```
+其中，'testgpu.py'为Pytorch官方测试小程序：
+```Python
+import torch
+import math
+
+dtype = torch.float
+# device = torch.device("cpu")
+device = torch.device("cuda:0") # Uncomment this to run on GPU
+
+# Create random input and output data
+x = torch.linspace(-math.pi, math.pi, 2000, device=device, dtype=dtype)
+y = torch.sin(x)
+
+# Randomly initialize weights
+a = torch.randn((), device=device, dtype=dtype)
+b = torch.randn((), device=device, dtype=dtype)
+c = torch.randn((), device=device, dtype=dtype)
+d = torch.randn((), device=device, dtype=dtype)
+
+learning_rate = 1e-6
+for t in range(2000):
+    # Forward pass: compute predicted y
+    y_pred = a + b * x + c * x ** 2 + d * x ** 3
+
+    # Compute and print loss
+    loss = (y_pred - y).pow(2).sum().item()
+    if t % 100 == 99:
+        print(t, loss)
+
+    # Backprop to compute gradients of a, b, c, d with respect to loss
+    grad_y_pred = 2.0 * (y_pred - y)
+    grad_a = grad_y_pred.sum()
+    grad_b = (grad_y_pred * x).sum()
+    grad_c = (grad_y_pred * x ** 2).sum()
+    grad_d = (grad_y_pred * x ** 3).sum()
+
+    # Update weights using gradient descent
+    a -= learning_rate * grad_a
+    b -= learning_rate * grad_b
+    c -= learning_rate * grad_c
+    d -= learning_rate * grad_d
+
+
+print(f'Result: y = {a.item()} + {b.item()} x + {c.item()} x^2 + {d.item()} x^3')
+```
+则我们运行任务如下：
+> sbatch testgpu.slurm
+
 
 #### 其他环境配置
 因为ssh登录后admin1节点自身没有GPU卡，需要首先提交一个空任务。空任务排队成功后，即可以登录申请的节点上，如gpu3节点，然后配置环境。
