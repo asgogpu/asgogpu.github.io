@@ -32,9 +32,26 @@ echo 'This is my first job !'
 > chmod 775 job.sh
 
 > sbatch job.sh
+作业结束后，可以在web界面或者ssh到登录节点查看。
 
-#### GPU初始环境配置
-因为ssh登录后admin1节点自身没有GPU卡，需要首先提交一个空任务。空任务排队成功后，即可以登录gpu3节点上，然后配置环境。
+### 环境配置
+系统预先配置了部分软件环境，可以通过增加环境变量的方式引用。全局软件放置于'/data1/software/'下。
+比如使用预装的conda：
+> vim .bashrc
+增加下面一行指令：
+'export PATH=/data1/software/anacinda3/bin:$PATH'
+
+又如调用cuda9.1：
+'export PATH=/data1/software/cuda9.1/bin:$PATH'
+'export LD_LIBRARY_PATH=/data1/software/cuda9.1/lib64:$LD_LIBRARY_PATH'
+
+然后刷新环境变量
+> source .bashrc
+
+环境配置完毕。
+
+#### 其他环境配置
+因为ssh登录后admin1节点自身没有GPU卡，需要首先提交一个空任务。空任务排队成功后，即可以登录申请的节点上，如gpu3节点，然后配置环境。
 后期执行任务只需要登录admin1即可。
 步骤1：
 ![空任务提交](gpu3.bmp "空任务提交")
@@ -43,9 +60,9 @@ echo 'This is my first job !'
 
 > ssh gpu3
 
-
-### 用户交流群
+<!-- ### 用户交流群
 ![ASGO-GPU用户群](qr.bmp "限时有效")
+ -->
 
 <!-- Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for -->
 
