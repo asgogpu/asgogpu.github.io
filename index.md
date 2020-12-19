@@ -1,14 +1,17 @@
-## 欢迎使用ASGO-GPU平台
+# 欢迎使用ASGO-GPU平台
 本平台运行基于CentOS系统上，使用GridView软件进行任务调度。详细指令可参考[Slurm官方手册](https://slurm.schedmd.com/quickstart.html)。
 用户入门请参阅《[用户手册](用户手册.pdf)》。
 
-### 调度平台入口
+### 调度平台web入口
 打开浏览器，输入：
 > 10.69.21.155:6080
+
 可以进行用户账号申请、登录、作业提交、状态查看等操作。
 
 ### 节点登录
-需要在校园网环境登录，校外请先连接VPN； Linux\Mac用户可直接在终端通过ssh的方式连接集群； Windows用户可通过windows terminal、xshell、putty或者mobaxterm连接集群；
+计算节点放置在校内，需要在校园网环境登录，校外请先连接VPN；
+- Linux\Mac用户可直接在终端通过ssh的方式连接集群；
+- Windows用户可通过windows terminal、xshell、putty或者mobaxterm连接集群；
 > ssh -p 22100 username@10.69.21.155
 
 
@@ -34,13 +37,16 @@ echo 'This is my first job !'
 > chmod 775 job.sh
 
 > sbatch job.sh
-作业结束后，可以在web界面或者ssh到登录节点查看。
+
+作业结束后，可以在web界面或者ssh到登录节点查看结果。
 
 ### 环境配置
 系统预先配置了部分软件环境，可以通过增加环境变量的方式引用。全局软件放置于'/data1/software/'下。
-比如使用预装的conda：
+
+比如使用预装的conda，只需要将文件位置加入环境变量即可：
 
 > vim .bashrc
+
 增加下面一行指令：
 
 'export PATH=/data1/software/anacinda3/bin:$PATH'
@@ -48,6 +54,7 @@ echo 'This is my first job !'
 又如调用cuda9.1：
 
 'export PATH=/data1/software/cuda9.1/bin:$PATH'
+
 'export LD_LIBRARY_PATH=/data1/software/cuda9.1/lib64:$LD_LIBRARY_PATH'
 
 然后刷新环境变量
@@ -56,7 +63,8 @@ echo 'This is my first job !'
 
 环境配置完毕。
 
-####示例：
+#### 示例：
+
 至此，我们已经可以使用系统预先配置的环境运行任务了。
 编辑测试脚本'testgpu.slurm'如下：
 ```
@@ -120,15 +128,28 @@ print(f'Result: y = {a.item()} + {b.item()} x + {c.item()} x^2 + {d.item()} x^3'
 > sbatch testgpu.slurm
 
 
-#### 其他环境配置
-因为ssh登录后admin1节点自身没有GPU卡，需要首先提交一个空任务。空任务排队成功后，即可以登录申请的节点上，如gpu3节点，然后配置环境。
-后期执行任务只需要登录admin1即可。
-步骤1：
+### 其他环境配置
+如果系统预装环境不能够满足计算需求，则需要大家自己进行相关开发环境配置。
+
+#### 普通环境配置
+ssh至admin1节点后，根据软件包提示，安装在用户本地目录即可。
+
+#### GPU环境配置
+对于需要使用GPU计算卡的软件包配置，需要多一步操作。
+因为ssh登录后admin1节点自身没有GPU卡，需要首先提交一个空任务。空任务排队成功后，即可以登录申请的装有GPU卡的计算节点上，如gpu3节点，然后配置环境。
+配置完毕，后期执行任务只需要登录admin1提交任务即可。
+
+步骤1： 提交空任务，等待调度排队
 ![空任务提交](gpu3.bmp "空任务提交")
+
 步骤2：
+排队成功后，登录计算节点，配置GPU环境。
+
 > ssh -p 22100 username@10.69.21.155
 
 > ssh gpu3
+
+
 
 <!-- ### 用户交流群
 ![ASGO-GPU用户群](qr.bmp "限时有效")
