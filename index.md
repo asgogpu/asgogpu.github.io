@@ -1,10 +1,11 @@
 # 欢迎使用ASGO-GPU平台
-本平台运行基于CentOS系统上，使用GridView软件进行任务调度。详细指令可参考[Slurm官方手册](https://slurm.schedmd.com/quickstart.html)。
+本平台运行基于CentOS 7.6.1810 (Core)系统上，使用GridView软件5.0 进行任务调度。
 用户入门请参阅《[用户手册](用户手册.pdf)》。
+该调度软件基于SLURM架构，详细指令可参考[Slurm官方手册](https://slurm.schedmd.com/quickstart.html)。
 
 ### 调度平台web入口
 打开浏览器，输入：
-> 10.69.21.155:6080
+> 10.80.8.150:6080
 
 可以进行用户账号申请、登录、作业提交、状态查看等操作。
 
@@ -12,7 +13,7 @@
 计算节点放置在校内，需要在校园网环境登录，校外请先连接VPN；
 - Linux\Mac用户可直接在终端通过ssh的方式连接集群；
 - Windows用户可通过windows terminal、xshell、putty或者mobaxterm连接集群；
-> ssh -p 22100 username@10.69.21.155
+> ssh -p 22 username@10.80.8.150
 
 
 ### 作业提交：
@@ -145,47 +146,13 @@ ssh至admin1节点后，根据软件包提示，安装在用户本地目录即�
 步骤2：
 排队成功后，登录计算节点，配置GPU环境。
 
-> ssh -p 22100 username@10.69.21.155
+> ssh -p 22 username@10.80.8.150
 
 > ssh gpu3
 
 
+>> 注意：GPU1节点更新了清华源，可以配置安装软件包。
 
-<!-- ### 用户交流群
-![ASGO-GPU用户群](qr.bmp "限时有效")
- -->
-
-<!-- Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for -->
-
-<!-- ```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/asgogpu/asgogpu.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
-
- -->
 ### 参考材料
 1. [SLURM官方手册中文版](https://docs.slurm.cn/users/)
 1. [SLURM官方手册英文版](https://slurm.schedmd.com/documentation.html)
