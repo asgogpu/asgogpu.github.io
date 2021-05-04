@@ -1,5 +1,5 @@
 # 欢迎使用ASGO-GPU平台
-本平台运行基于CentOS 7.6.1810 (Core)系统上，使用GridView软件5.0 进行任务调度。
+本平台运行基于CentOS 7.6.1810 (Core)系统上，使用GridView软件5.0.2 进行任务调度。
 用户入门请参阅《[用户手册](用户手册.pdf)》。
 该调度软件基于SLURM架构，详细指令可参考[Slurm官方手册](https://slurm.schedmd.com/quickstart.html)。
 
@@ -135,6 +135,8 @@ print(f'Result: y = {a.item()} + {b.item()} x + {c.item()} x^2 + {d.item()} x^3'
 #### 普通环境配置
 ssh至admin1节点后，根据软件包提示，安装在用户本地目录即可。
 
+>> 注意：GPU1节点更新了清华源，可以ssh到GPU1节点，配置安装软件包。
+
 #### GPU环境配置
 对于需要使用GPU计算卡的软件包配置，需要多一步操作。
 因为ssh登录后admin1节点自身没有GPU卡，需要首先提交一个空任务。空任务排队成功后，即可以登录申请的装有GPU卡的计算节点上，如gpu3节点，然后配置环境。
@@ -149,9 +151,6 @@ ssh至admin1节点后，根据软件包提示，安装在用户本地目录即�
 > ssh -p 22 username@10.80.8.150
 
 > ssh gpu3
-
-
->> 注意：GPU1节点更新了清华源，可以配置安装软件包。
 
 ### 参考材料
 1. [SLURM官方手册中文版](https://docs.slurm.cn/users/)
