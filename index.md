@@ -1,157 +1,93 @@
-# 欢迎使用ASGO-GPU平台
-本平台运行基于CentOS 7.6.1810 (Core)系统上，使用GridView软件5.0.2 进行任务调度。
-用户入门请参阅《[用户手册](用户手册.pdf)》。
-该调度软件基于SLURM架构，详细指令可参考[Slurm官方手册](https://slurm.schedmd.com/quickstart.html)。
+# 欢迎来到asgo大数据智算平台
+asgo大数据智算平台是聚焦在HPC领域的服务平台，帮助高校和科研机构等建立服务特定领域相对广泛用户的能力，提供终端用户直接可用的计算环境。
 
-### 调度平台web入口
+对于刚刚开始学习使用集群的用户，推荐先了解
+Linux基本操作(http://10.69.21.155:8080/help/app/linux.html)和Conda入门指南(http://10.69.21.155:8080/help/app/conda.html)。
+
+### 用户登录
 打开浏览器，输入：
-> 10.80.8.150:6080
+>  http://10.69.21.155:8080
 
-可以进行用户账号申请、登录、作业提交、状态查看等操作。
+### 使用模式
+计算云主要支持三种模式：
 
-### 节点登录
-计算节点放置在校内，需要在校园网环境登录，校外请先连接VPN；
-- Linux\Mac用户可直接在终端通过ssh的方式连接集群；
-- Windows用户可通过windows terminal、xshell、putty或者mobaxterm连接集群；
-> ssh -p 22 username@10.80.8.150
+1)对于计算资源使用量较大、有一定Linux命令行基础的用户，可以考虑使用公共集群或者独占集群模式。这两种模式都使用作业调度系统提交作业。不同在于公共集群按作业运行时长来计费，独占集群的计费从分配资源开始到资源释放，如果中间并未运行作业，依然计费。
+
+2)如果对Linux命令行不熟悉，我们提供了私有/共享实例模式，可以在“申请资源”处申请有交互界面的计算资源，提供了Jupyter等有交互界面的工具，上手简单，无需学习Linux，适用于无计算机背景的新用户。此模式优点是学习成本低，缺点是计费方式粒度粗，不适合有大量计算任务的用户。用户也可以前期使用这类交互界面实例，如发现计算量较大，建议逐渐迁移到公共集群模式上，该模式计费更准确。
+
+3)对于想独占计算资源的用户，可以使用独占集群模式
+### 集群登录
+- 通过Firefox或者Chrome浏览器访问 http://10.69.21.155:8080 并登录，选择“共享资源”，可以看到平台提供的公共集群；
+- 对于共享集群和独占集群，以及自带SSH服务的实例可以通过SSH直接登录。如果实例没有自带SSH服务，可以通过自行配置；
+> Windows推荐使用PuTTY，SecureCRT，Xmanager等客户端访问集群的服务端口，Linux/Mac直接使用终端即可.
+> ssh -p 20011 username@10.69.21.155
+### 文件传输
+- 每位用户会分配一个个人目录用于私有实例，路径为 /home/USERNAME 。
+
+- 每个用户分配一个共享文件系统上的目录，作为独占集群里的Home目录，路径为 /group_homes/PRIVATE_CLUSTER/home/USERNAME 。
+
+- 对于加入公共集群的用户，系统会为用户在公共集群中分配一个Home目录，路径为 /group_homes/PUBLIC_CLUSTER/home/USERNAME。
+### 作业系统
+在公共集群中使用SLURM作业调度系统进行任务的调度和管理。
+日常使用超算资源只需掌握简单的几条命令即可，具体详细的配置请参考 https://slurm.schedmd.com/documentation.html
 
 
-### 作业提交：
-提交作业请先编写作业脚本，并通过`sbatch`命令提交。
+### Slurm作业提交：
+1) 系统界面提交 http://10.69.21.155:8080/help/manual/job.html#id7
+系统支持直接在页面提交作业。
+点击上方“集群”按钮，选择“提交作业”。
+选择需要使用的集群和作业模板，填写作业名称，在脚本编辑器里填入作业脚本，点击右上方的“提交作业”按钮。
+提交作业后，可以在“作业”页面查看是否提交成功。
+2) 终端提交
+提交GPU集群作业请先编写作业脚本，并通过`sbatch`命令提交。
 
 假设作业脚本文件名为job.sh，
-```bash
+### 表示这是一个bash脚本
 #!/bin/bash
-#SBATCH -o job.%j.out          #输出文件路径
-#SBATCH --partition=operation  #队列名称，目前有debug 和 partition可选；优先级不同
-#SBATCH --qos=low
-#SBATCH -J myFirstJob          #可以给任务命名
-#SBATCH --nodes=1              #申请节点数 1
-#SBATCH --gres=gpu:2 #每个节点上申请2个GPU
-
-# your tasks here
-hostname
-echo 'This is my first job !'
-```
+### 设置该作业的作业名
+#SBATCH --job-name=JOBNAME
+### 指定该作业需要2个节点数
+#SBATCH --nodes=2
+### 每个节点所运行的进程数为40
+#SBATCH --ntasks-per-node=40
+### 作业最大的运行时间，超过时间后作业资源会被SLURM回收
+#SBATCH --time=2:00:00
+### 申请1块GPU卡
+#SBATCH --gres=gpu:1
+### 指定从哪个项目扣费。如果没有这条参数，则从个人账户扣费
+#SBATCH --comment project_name
+### 程序的执行命令
+mpirun hostname
 
 则通过以下命令提交：
-> chmod 775 job.sh
+sbatch -s 作业脚本名
 
-> sbatch job.sh
-
-作业结束后，可以在web界面或者ssh到登录节点查看结果。
-
+等作业执行完成后，默认会把程序的输出放到slurm-作业编号.out的文件中，可通过该文件查看程序的输出。
+### 项目共享 http://10.69.21.155:8080/help/manual/project.html#id3
+共享项目中可以包含多位用户、多个实例。项目内其他成员可以查看共享到项目内的实例，也可以选择将实例计费计入项目中。
 ### 环境配置
-系统预先配置了部分软件环境，可以通过增加环境变量的方式引用。全局软件放置于'/data1/software/'下。
+超算平台上预先安装了常用的科学计算类的软件，默认安装路径为/opt/app/，用户可直接使用预编译好的可执行文件进行计算。
 
-比如使用预装的conda，只需要将文件位置加入环境变量即可：
+比如使用预装的conda，在安装无需向anaconda目录写入内容的包时，可以通过配置环境变量使用，即在.bahsrc中添加路径即可：
 
 > vim .bashrc
 
-增加下面一行指令：
+编辑路径，在脚本末尾添加：
 
-'export PATH=/data1/software/anacinda3/bin:$PATH'
+'export PATH=/opt/app/anaconda3/bin:$PATH'
 
-又如调用cuda9.1：
+如果在使用conda时，遇到没有权限写入等错误，则需要在自己路径下安装Miniconda。
 
-'export PATH=/data1/software/cuda9.1/bin:$PATH'
+Miniconda在路径：/opt/app/anaconda3/Miniconda3-latest-Linux-x86_64.sh
 
-'export LD_LIBRARY_PATH=/data1/software/cuda9.1/lib64:$LD_LIBRARY_PATH'
+将该安装包复制到自己路径下，然后输入如下命令进行安装，安装完成后即可使用。
 
-然后刷新环境变量
-
-> source .bashrc
-
-环境配置完毕。
-
-#### 示例：
-
-至此，我们已经可以使用系统预先配置的环境运行任务了。
-编辑测试脚本'testgpu.slurm'如下：
-```
-#!/bin/bash
-#SBATCH --partition=operation
-#SBATCH --qos=low
-#SBATCH --nodes=1                 # 申请一个节点
-#SBATCH --cpus-per-task=2
-#SBATCH --ntasks-per-node=6
-#SBATCH --gres=gpu:2            # 每个节点上申请2块GPU卡
-
-#your task here:
-python testgpu.py
-```
-其中，'testgpu.py'为Pytorch官方测试小程序：
-```Python
-import torch
-import math
-
-dtype = torch.float
-# device = torch.device("cpu")
-device = torch.device("cuda:0") # Uncomment this to run on GPU
-
-# Create random input and output data
-x = torch.linspace(-math.pi, math.pi, 2000, device=device, dtype=dtype)
-y = torch.sin(x)
-
-# Randomly initialize weights
-a = torch.randn((), device=device, dtype=dtype)
-b = torch.randn((), device=device, dtype=dtype)
-c = torch.randn((), device=device, dtype=dtype)
-d = torch.randn((), device=device, dtype=dtype)
-
-learning_rate = 1e-6
-for t in range(2000):
-    # Forward pass: compute predicted y
-    y_pred = a + b * x + c * x ** 2 + d * x ** 3
-
-    # Compute and print loss
-    loss = (y_pred - y).pow(2).sum().item()
-    if t % 100 == 99:
-        print(t, loss)
-
-    # Backprop to compute gradients of a, b, c, d with respect to loss
-    grad_y_pred = 2.0 * (y_pred - y)
-    grad_a = grad_y_pred.sum()
-    grad_b = (grad_y_pred * x).sum()
-    grad_c = (grad_y_pred * x ** 2).sum()
-    grad_d = (grad_y_pred * x ** 3).sum()
-
-    # Update weights using gradient descent
-    a -= learning_rate * grad_a
-    b -= learning_rate * grad_b
-    c -= learning_rate * grad_c
-    d -= learning_rate * grad_d
-
-
-print(f'Result: y = {a.item()} + {b.item()} x + {c.item()} x^2 + {d.item()} x^3')
-```
-则我们运行任务如下：
-> sbatch testgpu.slurm
-
+./ Miniconda3-latest-Linux-x86_64.sh
 
 ### 其他环境配置
 如果系统预装环境不能够满足计算需求，则需要大家自己进行相关开发环境配置。
 
-#### 普通环境配置
-ssh至admin1节点后，根据软件包提示，安装在用户本地目录即可。
-
->> 注意：GPU1节点更新了清华源，可以ssh到GPU1节点，配置安装软件包。
-
-#### GPU环境配置
-对于需要使用GPU计算卡的软件包配置，需要多一步操作。
-因为ssh登录后admin1节点自身没有GPU卡，需要首先提交一个空任务。空任务排队成功后，即可以登录申请的装有GPU卡的计算节点上，如gpu3节点，然后配置环境。
-配置完毕，后期执行任务只需要登录admin1提交任务即可。
-
-步骤1： 提交空任务，等待调度排队
-![空任务提交](gpu3.bmp "空任务提交")
-
-步骤2：
-排队成功后，登录计算节点，配置GPU环境。
-
-> ssh -p 22 username@10.80.8.150
-
-> ssh gpu3
-
 ### 参考材料
-1. [SLURM官方手册中文版](https://docs.slurm.cn/users/)
-1. [SLURM官方手册英文版](https://slurm.schedmd.com/documentation.html)
+1. [Linux基本操作](http://10.69.21.155:8080/help/app/linux.html)
+2. [Conda入门指南](http://10.69.21.155:8080/help/app/conda.html)
+3. [Slurm官方手册](https://slurm.schedmd.com/quickstart.html)
