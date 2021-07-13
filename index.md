@@ -6,9 +6,11 @@
 [Linux基本操作](http://10.69.21.155:8080/help/app/linux.html)、[Conda入门指南](http://10.69.21.155:8080/help/app/conda.html)和[SLURM基本指令](https://slurm.schedmd.com/quickstart.html)。
 
 
-### 用户登录
+### 用户注册、登录
 打开浏览器，输入：
 >  http://10.69.21.155:8080
+
+![login](web.png)
 
 ### 使用模式
 计算云主要支持三种模式：
