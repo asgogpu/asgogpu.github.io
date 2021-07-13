@@ -1,8 +1,10 @@
 # 欢迎来到asgo大数据智算平台
-asgo大数据智算平台是聚焦在HPC领域的服务平台，帮助高校和科研机构等建立服务特定领域相对广泛用户的能力，提供终端用户直接可用的计算环境。
+
+集群支持SLURM任务调度、容器、虚拟机等不同应用场景。
 
 对于刚刚开始学习使用集群的用户，推荐先了解
-Linux基本操作(http://10.69.21.155:8080/help/app/linux.html)和Conda入门指南(http://10.69.21.155:8080/help/app/conda.html)。
+[Linux基本操作](http://10.69.21.155:8080/help/app/linux.html)、[Conda入门指南](http://10.69.21.155:8080/help/app/conda.html)和[SLURM基本指令](https://slurm.schedmd.com/quickstart.html)。
+
 
 ### 用户登录
 打开浏览器，输入：
@@ -16,17 +18,22 @@ Linux基本操作(http://10.69.21.155:8080/help/app/linux.html)和Conda入门指
 2)如果对Linux命令行不熟悉，我们提供了私有/共享实例模式，可以在“申请资源”处申请有交互界面的计算资源，提供了Jupyter等有交互界面的工具，上手简单，无需学习Linux，适用于无计算机背景的新用户。此模式优点是学习成本低，缺点是计费方式粒度粗，不适合有大量计算任务的用户。用户也可以前期使用这类交互界面实例，如发现计算量较大，建议逐渐迁移到公共集群模式上，该模式计费更准确。
 
 3)对于想独占计算资源的用户，可以使用独占集群模式
+
 ### 集群登录
 - 通过Firefox或者Chrome浏览器访问 http://10.69.21.155:8080 并登录，选择“共享资源”，可以看到平台提供的公共集群；
 - 对于共享集群和独占集群，以及自带SSH服务的实例可以通过SSH直接登录。如果实例没有自带SSH服务，可以通过自行配置；
-> Windows推荐使用PuTTY，SecureCRT，Xmanager等客户端访问集群的服务端口，Linux/Mac直接使用终端即可.
+
+> Windows推荐使用PuTTY，SecureCRT，Xmanager等客户端访问集群的服务端口，Linux/Mac直接使用终端即可。
+
 > ssh -p 20011 username@10.69.21.155
+
 ### 文件传输
 - 每位用户会分配一个个人目录用于私有实例，路径为 /home/USERNAME 。
 
 - 每个用户分配一个共享文件系统上的目录，作为独占集群里的Home目录，路径为 /group_homes/PRIVATE_CLUSTER/home/USERNAME 。
 
 - 对于加入公共集群的用户，系统会为用户在公共集群中分配一个Home目录，路径为 /group_homes/PUBLIC_CLUSTER/home/USERNAME。
+
 ### 作业系统
 在公共集群中使用SLURM作业调度系统进行任务的调度和管理。
 日常使用超算资源只需掌握简单的几条命令即可，具体详细的配置请参考 https://slurm.schedmd.com/documentation.html
@@ -42,6 +49,7 @@ Linux基本操作(http://10.69.21.155:8080/help/app/linux.html)和Conda入门指
 提交GPU集群作业请先编写作业脚本，并通过`sbatch`命令提交。
 
 假设作业脚本文件名为job.sh，
+```
 ### 表示这是一个bash脚本
 #!/bin/bash
 ### 设置该作业的作业名
@@ -59,12 +67,17 @@ Linux基本操作(http://10.69.21.155:8080/help/app/linux.html)和Conda入门指
 ### 程序的执行命令
 mpirun hostname
 
+```
+
 则通过以下命令提交：
-sbatch -s 作业脚本名
+
+`sbatch job.sh`
 
 等作业执行完成后，默认会把程序的输出放到slurm-作业编号.out的文件中，可通过该文件查看程序的输出。
+
 ### 项目共享 http://10.69.21.155:8080/help/manual/project.html#id3
 共享项目中可以包含多位用户、多个实例。项目内其他成员可以查看共享到项目内的实例，也可以选择将实例计费计入项目中。
+
 ### 环境配置
 超算平台上预先安装了常用的科学计算类的软件，默认安装路径为/opt/app/，用户可直接使用预编译好的可执行文件进行计算。
 
