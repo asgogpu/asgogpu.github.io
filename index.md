@@ -3,12 +3,12 @@
 集群支持SLURM任务调度、容器、虚拟机等不同应用场景。
 
 对于刚刚开始学习使用集群的用户，推荐先了解
-[Linux基本操作](http://10.69.21.155:8080/help/app/linux.html)、[Conda入门指南](http://10.69.21.155:8080/help/app/conda.html)和[SLURM基本指令](https://slurm.schedmd.com/quickstart.html)。
+[Linux基本操作](http://10.68.219.148:8080/help/app/linux.html)、[Conda入门指南](http://10.68.219.148:8080/help/app/conda.html)和[SLURM基本指令](https://slurm.schedmd.com/quickstart.html)。
 
 
 ### 用户注册、登录
 打开浏览器，输入：
->  http://10.69.21.155:8080
+>  http://10.68.219.148:8080
 
 ![login](web.png)
 
@@ -22,12 +22,12 @@
 3)对于想独占计算资源的用户，可以使用独占集群模式
 
 ### 集群登录
-- 通过Firefox或者Chrome浏览器访问 http://10.69.21.155:8080 并登录，选择“共享资源”，可以看到平台提供的公共集群；
+- 通过Firefox或者Chrome浏览器访问 http://10.68.219.148:8080 并登录，选择“共享资源”，可以看到平台提供的公共集群；
 - 对于共享集群和独占集群，以及自带SSH服务的实例可以通过SSH直接登录。如果实例没有自带SSH服务，可以通过自行配置；
 
 > Windows推荐使用PuTTY，SecureCRT，Xmanager等客户端访问集群的服务端口，Linux/Mac直接使用终端即可。
 
-> ssh -p 20011 username@10.69.21.155
+> ssh -p 20011 username@10.68.219.148
 
 ### 文件传输
 - 每位用户会分配一个个人目录用于私有实例，路径为 /home/USERNAME 。
@@ -42,7 +42,7 @@
 
 
 ### Slurm作业提交：
-1) 系统界面提交 http://10.69.21.155:8080/help/manual/job.html#id7
+1) 系统界面提交 http://10.68.219.148:8080/help/manual/job.html#id7
 系统支持直接在页面提交作业。
 点击上方“集群”按钮，选择“提交作业”。
 选择需要使用的集群和作业模板，填写作业名称，在脚本编辑器里填入作业脚本，点击右上方的“提交作业”按钮。
@@ -77,7 +77,7 @@ mpirun hostname
 
 等作业执行完成后，默认会把程序的输出放到slurm-作业编号.out的文件中，可通过该文件查看程序的输出。
 
-### 项目共享 http://10.69.21.155:8080/help/manual/project.html#id3
+### 项目共享 http://10.68.219.148:8080/help/manual/project.html#id3
 共享项目中可以包含多位用户、多个实例。项目内其他成员可以查看共享到项目内的实例，也可以选择将实例计费计入项目中。
 
 ### 环境配置
@@ -103,6 +103,6 @@ Miniconda在路径：/opt/app/anaconda3/Miniconda3-latest-Linux-x86_64.sh
 如果系统预装环境不能够满足计算需求，则需要大家自己进行相关开发环境配置。
 
 ### 参考材料
-1. [Linux基本操作](http://10.69.21.155:8080/help/app/linux.html)
-2. [Conda入门指南](http://10.69.21.155:8080/help/app/conda.html)
+1. [Linux基本操作](http://10.68.219.148:8080/help/app/linux.html)
+2. [Conda入门指南](http://10.68.219.148:8080/help/app/conda.html)
 3. [Slurm官方手册](https://slurm.schedmd.com/quickstart.html)
