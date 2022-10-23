@@ -105,6 +105,11 @@ Miniconda在路径：/opt/app/anaconda3/Miniconda3-latest-Linux-x86_64.sh
 ### 其他环境配置
 如果系统预装环境不能够满足计算需求，则需要大家自己进行相关开发环境配置。
 
+### 状态查看
+1. 'sinfo' 查看节点状态
+2. 'squeue' 查看队列状态
+3. '/opt/app/eaas/eaas_smi' 查看节点显卡状态（nvidia-smi不可用）
+
 ### 参考材料
 1. [Linux基本操作](http://10.68.219.148:8080/help/app/linux.html)
 2. [Conda入门指南](http://10.68.219.148:8080/help/app/conda.html)
